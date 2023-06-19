@@ -1,4 +1,8 @@
 # rosbot-sensors
+
+> **Warning**
+> This repository is in Beta version and not all features work properly and/or are compatible with the latest stable firmware!
+
 Visualization for ROSbot 2R, ROSbot 2 PRO and ROSbot 2.0 sensors.
 
 # Quick Start
