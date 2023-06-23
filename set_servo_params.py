@@ -1,9 +1,9 @@
 # Script for testing 5.0V 20ms servo motor connected to ROSbot 2R
 import rclpy
+from time import sleep
 from rclpy.node import Node
 from rcl_interfaces.srv import SetParameters
 from rcl_interfaces.msg import Parameter, ParameterType
-from std_msgs.msg import Bool
 
 class ParameterSetterNode(Node):
     def __init__(self):
@@ -43,8 +43,10 @@ class ParameterSetterNode(Node):
         request.parameters.append(servo0_period)
 
         future = self.set_parameters_client.call_async(request)
-        rclpy.spin_until_future_complete(self, future)
-
+        while not future.done():
+            rclpy.spin_once(self, timeout_sec=1.0)
+            future = self.set_parameters_client.call_async(request)
+            sleep(10.0)
         if future.result() is not None:
             self.get_logger().info('Parameters set successfully')
         else:
