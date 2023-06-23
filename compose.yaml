@@ -13,11 +13,13 @@ services:
 
   microros:
     image: husarion/micro-ros-agent:humble
-    <<: *net-config
+    network_mode: host
+    ipc: host
     devices:
       - ${SERIAL_PORT:?err}
     environment:
       - SERIAL_PORT
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
@@ -60,3 +62,13 @@ services:
     ports:
       - 9090:9090
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+
+  servo-params-setter:
+    image: husarion/micro-ros-agent:humble
+    network_mode: host
+    ipc: host
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+    volumes:
+      - ./set_servo_params.py:/set_servo_params.py
+    command: /bin/python3 /set_servo_params.py
