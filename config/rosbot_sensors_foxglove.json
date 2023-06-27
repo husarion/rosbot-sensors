@@ -240,7 +240,7 @@
     },
     "Teleop!yh7wcv": {
       "topic": "/cmd_vel",
-      "publishRate": 1,
+      "publishRate": 10,
       "upButton": {
         "field": "linear-x",
         "value": 0.19754204525471783
