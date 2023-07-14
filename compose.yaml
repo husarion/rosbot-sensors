@@ -55,7 +55,7 @@ services:
       - ROSBRIDGE_PORT=9090
 
   rosbridge:
-    image: husarion/rosbridge:humble-1.3.1-20230220
+    image: husarion/rosbridge-server:humble-1.3.1-20230505-stable
     <<: *net-config
     ports:
       - 9090:9090
