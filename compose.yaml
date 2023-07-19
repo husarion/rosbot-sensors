@@ -2,13 +2,13 @@ services:
 
   rosbot:
     image: husarion/rosbot:humble-0.6.1-20230712
+    container_name: rosbot
     volumes:
       - ./set_servo_params.py:/set_servo_params.py
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   microros:
     image: husarion/micro-xrce-agent:v2.4.1
-    container_name: microros
     devices:
       - ${SERIAL_PORT:?err}
     command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000 # -v6
