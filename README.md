@@ -10,7 +10,6 @@ cd rosbot-sensors
 ```
 ### Configure workspace:
 In `.env` file you can change the lidar baudrate and enable the mecanum controller.
-In `net.env` file you can change network configuration.
 
 ### Sync with robot:
 Sync workspace with ROSbot:
