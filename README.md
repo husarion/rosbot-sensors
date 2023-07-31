@@ -26,7 +26,13 @@ Open web browser and go to `<ROSbot_ip>:8080` website. Chrome/Chromium browser i
 ## On ROSbot
 In the ROSbot's shell execute (in the `/home/husarion/rosbot-sensors` directory):
 ```
-docker compose up
+docker compose up -d
+```
+
+Wait about 10 seconds and enable the servos:
+```
+docker exec -it rosbot bash -c \
+"source /opt/ros/humble/setup.bash && /bin/python3 /set_servo_params.py"
 ```
 
 # Demo
