@@ -29,4 +29,5 @@ Open web browser and go to `<ROSbot_ip>:8080` website. Chrome/Chromium browser i
 
 # Demo
 Now reload the Foxglove website inside your web browser on your PC. You should see the Foxglove application. Click on left top button `Data source`, click the plus `new connection` -> `Open connection` and you should see `WebSocket URL` set to `ws://<ROSbot_ip>:9090` > `Open`. You can see step by step instructions below.
+
 ![foxglove_sensors](.docs/foxglove_connect.gif)
