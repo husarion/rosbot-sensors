@@ -1,8 +1,4 @@
 # rosbot-sensors
-
-> **Warning**
-> This repository is in Beta version and not all features work properly and/or are compatible with the latest stable firmware!
-
 Visualization for ROSbot 2R, ROSbot 2 PRO and ROSbot 2.0 sensors.
 
 # Quick Start
@@ -21,16 +17,15 @@ Sync workspace with ROSbot:
 ./sync_with_rosbot.sh <ROSbot_ip>
 ```
 
-### Open Foxglove application in browser:
-Open web browser and go to `<ROSbot_ip>:8080` website. Chrome/Chromium browser is highly recommended.
-> **Warning**
-> Currently, the Foxglove page does not exist. The Foxglove application will be available once the Docker containers are set up inside the ROSbot. Please continue reading for more information.
-
 ## On ROSbot
 In the ROSbot's shell execute (in the `/home/husarion/rosbot-sensors` directory):
 ```
 docker compose up
 ```
+
+# On PC
+### Open Foxglove application in browser:
+Open web browser and go to `<ROSbot_ip>:8080` website. Chrome/Chromium browser is highly recommended.
 
 # Demo
 Now reload the Foxglove website inside your web browser on your PC. You should see the Foxglove application. Click on left top button `Data source`, click the plus `new connection` -> `Open connection` and you should see `WebSocket URL` set to `ws://<ROSbot_ip>:9090` > `Open`. You can see step by step instructions below.
