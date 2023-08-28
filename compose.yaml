@@ -2,6 +2,9 @@ services:
 
   rosbot:
     image: husarion/rosbot:humble-0.6.1-20230712
+    container_name: rosbot
+    volumes:
+      - ./set_servo_params.py:/set_servo_params.py
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   microros:

@@ -27,7 +27,7 @@
       "maxYValue": 1,
       "showXAxisLabels": true,
       "showYAxisLabels": true,
-      "showLegend": true,
+      "showLegend": false,
       "legendDisplay": "floating",
       "showPlotValuesInLegend": false,
       "isSynced": true,
@@ -63,7 +63,7 @@
       "maxYValue": 1.1,
       "showXAxisLabels": true,
       "showYAxisLabels": true,
-      "showLegend": true,
+      "showLegend": false,
       "legendDisplay": "floating",
       "showPlotValuesInLegend": false,
       "isSynced": true,
@@ -71,6 +71,36 @@
       "sidebarDimension": 240,
       "foxglovePanelTitle": "Plot",
       "followingViewWidth": 30
+    },
+    "Publish!jiwd3t": {
+      "topicName": "/cmd_vel",
+      "datatype": "geometry_msgs/msg/Twist",
+      "buttonText": "Test Motors",
+      "buttonTooltip": "",
+      "buttonColor": "#8e5f00",
+      "advancedView": false,
+      "value": "{\n  \"linear\": {\n    \"x\": 1.0,\n    \"y\": 0,\n    \"z\": 0\n  },\n  \"angular\": {\n    \"x\": 0,\n    \"y\": 0,\n    \"z\": -0.5\n  }\n}",
+      "foxglovePanelTitle": "Test Motors"
+    },
+    "Publish!4gepnn0": {
+      "topicName": "/cmd_ser",
+      "datatype": "std_msgs/msg/UInt32MultiArray",
+      "buttonText": "Test Servo Left",
+      "buttonTooltip": "",
+      "buttonColor": "#8e5f00",
+      "advancedView": false,
+      "value": "{\n  \"data\": [\n    2000, 0, 0, 0, 0, 0\n  ]\n}",
+      "foxglovePanelTitle": "Test Servo Left"
+    },
+    "Publish!4idbwgm": {
+      "topicName": "/cmd_ser",
+      "datatype": "std_msgs/msg/UInt32MultiArray",
+      "buttonText": "Test Servo Right",
+      "buttonTooltip": "",
+      "buttonColor": "#8e5f00",
+      "advancedView": false,
+      "value": "{\n\n  \"data\": [\n    1000, 0, 0, 0, 0, 0\n  ]\n}",
+      "foxglovePanelTitle": "Test Servo Right"
     },
     "Tab!2qhku9u": {
       "activeTabIdx": 0,
@@ -82,24 +112,36 @@
         {
           "title": "IMU Plots",
           "layout": "Plot!1u5bb0v"
+        },
+        {
+          "title": "Production",
+          "layout": {
+            "first": "Publish!jiwd3t",
+            "second": {
+              "first": "Publish!4gepnn0",
+              "second": "Publish!4idbwgm",
+              "direction": "row"
+            },
+            "direction": "column",
+            "splitPercentage": 19.836065573770494
+          }
         }
       ]
     },
     "3D!40jejke": {
       "cameraState": {
-        "perspective": true,
         "distance": 4.7565377051017865,
+        "perspective": true,
         "phi": 0.5121483430698642,
-        "thetaOffset": 89.80364880250498,
-        "targetOffset": [
-          0.04217571585974451,
-          -0.03971452594915587,
-          1.5648103050465003e-17
-        ],
         "target": [
           0,
           0,
           0
+        ],
+        "targetOffset": [
+          0.04217571585974451,
+          -0.03971452594915587,
+          1.5648103050465003e-17
         ],
         "targetOrientation": [
           0,
@@ -107,6 +149,7 @@
           0,
           1
         ],
+        "thetaOffset": 89.80364880250498,
         "fovy": 45,
         "near": 0.5,
         "far": 5000
@@ -397,13 +440,9 @@
     "globalVariable": 7
   },
   "userNodes": {
-    "f5206e1d-deee-4f90-a03e-f561fbb9a7dd": {
+    "9d38e45d-b7a9-48fd-947a-5bf813319343": {
       "sourceCode": "// The ./types module provides helper types for your Input events and messages.\nimport { Input, Message } from \"./types\";\n\n// Your script can output well-known message types, any of your custom message types, or\n// complete custom message types.\n//\n// Use `Message` to access your data source types or well-known types:\n// type Twist = Message<\"geometry_msgs/Twist\">;\n//\n// Conventionally, it's common to make a _type alias_ for your script's output type\n// and use that type name as the return type for your script function.\n// Here we've called the type `Output` but you can pick any type name.\ntype Output = {\n  hello: string;\n};\n\n// These are the topics your script \"subscribes\" to. Studio will invoke your script function\n// when any message is received on one of these topics.\nexport const inputs = [\"/input/topic\"];\n\n// Any output your script produces is \"published\" to this topic. Published messages are only visible within Studio, not to your original data source.\nexport const output = \"/studio_script/output_topic\";\n\n// This function is called with messages from your input topics.\n// The first argument is an event with the topic, receive time, and message.\n// Use the `Input<...>` helper to get the correct event type for your input topic messages.\nexport default function script(event: Input<\"/input/topic\">): Output {\n  return {\n    hello: \"world!\",\n  };\n};",
-      "name": "f5206e1d"
-    },
-    "1a9e6183-d4b1-47dd-a024-efc14ab90b6b": {
-      "sourceCode": "// This example shows how to subscribe to multiple input topics.\n//\n// NOTE:\n// User Scripts can subscribe to multiple input topics, but can only publish on a single topic.\n\nimport { Input } from \"./types\";\n\ntype Output = { topic: string };\ntype GlobalVariables = { id: number };\n\n// List all the input topics in the `input` array\nexport const inputs = [\"/input/topic\", \"/input/another\"];\nexport const output = \"/studio_script/output_topic\";\n\n// Make an InputEvent type alias. Since our node will get a message from either input topic, we need to enumerate the topics.\ntype InputEvent = Input<\"/input/topic\"> | Input<\"/input/another\">;\n\nexport default function node(event: InputEvent, globalVars: GlobalVariables): Output {\n  // Remember that your node will get messages on each topic, so you\n  // need to check each event's topic to know which fields are available on the message.\n  switch (event.topic) {\n    case \"/input/topic\":\n      // topic specific input logic\n      // Our message fields are specific to our topic message\n      break;\n    case \"/input/another\":\n      // another specific logic\n      break;\n  }\n\n  // Nodes can only output one type of message regardless of the inputs\n  // Here we echo back the input topic as an example.\n  return {\n    topic: event.topic,\n  };\n};\n",
-      "name": "1a9e6183"
+      "name": "9d38e45d"
     }
   },
   "playbackConfig": {
@@ -423,7 +462,7 @@
         "direction": "row",
         "splitPercentage": 57.03330110757996
       },
-      "splitPercentage": 30.5849582172702
+      "splitPercentage": 28.567007118539152
     },
     "second": {
       "first": "ImageViewPanel!40iocf4",
@@ -469,6 +508,6 @@
       "splitPercentage": 30.63012301119672
     },
     "direction": "column",
-    "splitPercentage": 67.44897959183673
+    "splitPercentage": 65.40816326530611
   }
 }
