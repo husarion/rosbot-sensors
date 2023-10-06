@@ -333,7 +333,7 @@
       "path": "/battery.voltage",
       "style": "background",
       "fallbackColor": "#000000",
-      "fallbackLabel": "Ok",
+      "fallbackLabel": "Battery Ok",
       "rules": [
         {
           "operator": "<",
@@ -388,7 +388,7 @@
     "Indicator!2z34jcy": {
       "path": "/button/left.data",
       "style": "background",
-      "fallbackColor": "#ff0000",
+      "fallbackColor": "#ffc222",
       "fallbackLabel": "Released",
       "rules": [
         {
@@ -423,7 +423,7 @@
     "Indicator!1hywfa1": {
       "path": "/button/right.data",
       "style": "background",
-      "fallbackColor": "#ff0000",
+      "fallbackColor": "#ffc222",
       "fallbackLabel": "Released",
       "rules": [
         {
@@ -433,7 +433,7 @@
           "label": "Pressed"
         }
       ],
-      "foxglovePanelTitle": "Left Button"
+      "foxglovePanelTitle": "Right Button"
     }
   },
   "globalVariables": {
