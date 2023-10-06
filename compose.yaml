@@ -16,7 +16,7 @@ services:
   rplidar:
     image: husarion/rplidar:humble
     devices:
-      - ${LIDAR_SERIAL:?err}:/dev/ttyUSB0
+      - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   astra:
@@ -46,7 +46,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./config/rosbot_sensors_foxglove.json:/src/FoxgloveDefaultLayout.json
+      - ./config/rosbot_sensors_foxglove.json:/foxglove/default-layout.json
     environment:
       - FOXGLOVE_PORT=8080
       - ROSBRIDGE_PORT=9090
