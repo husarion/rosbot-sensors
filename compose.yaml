@@ -42,7 +42,7 @@ services:
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove:
-    image: husarion/foxglove:humble-1.39.1-20230220
+    image: husarion/foxglove:1.72.0
     ports:
       - 8080:8080
     volumes:
