@@ -51,3 +51,8 @@ To access Foxglove, input the following in your browser's search bar:
 </div>
 
 ![foxglove_result](.docs/foxglove_xl_result.gif)
+
+
+**Known issue**
+
+If you're unable to move the ROSbot at times, you may need to restart the compose.yaml file while keeping Foxglove open in your browser.
