@@ -6,12 +6,12 @@ x-network_mode: &network_mode
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.8.4-20230921
+    image: husarion/rosbot:humble
     <<: *network_mode
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   microros:
-    image: husarion/micro-ros-agent:humble-3.1.3-20231013
+    image: husarion/micro-ros-agent:humble
     <<: *network_mode
     devices:
       - ${SERIAL_PORT:?err}
@@ -34,7 +34,7 @@ services:
     command: ros2 launch astra_camera astra_mini.launch.py
 
   image_compressor:
-    image: husarion/image-transport:humble-4.2.0-20230216
+    image: husarion/image-transport:humble
     <<: *network_mode
     command: >
       ros2 run image_transport republish raw compressed
@@ -43,7 +43,7 @@ services:
         --remap out/compressed:=/camera/color/image_raw/compressed
 
   rosbridge:
-    image: husarion/rosbridge-server:humble-1.3.1-20230505-stable
+    image: husarion/rosbridge-server:humble
     <<: *network_mode
     ports:
       - 9090:9090
