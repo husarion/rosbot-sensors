@@ -1,26 +1,32 @@
+# by using this we force services to use the default docker0 interface
+# that is used by default with `docker run ... ` (used by set_servo_params.sh) script
+x-network_mode: &network_mode
+  network_mode: bridge
+
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-0.6.1-20230712
-    container_name: rosbot
-    volumes:
-      - ./set_servo_params.py:/set_servo_params.py
+    image: husarion/rosbot:humble-0.8.4-20230921
+    <<: *network_mode
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   microros:
-    image: husarion/micro-xrce-agent:v2.4.1
+    image: husarion/micro-ros-agent:humble-3.1.3-20231013
+    <<: *network_mode
     devices:
       - ${SERIAL_PORT:?err}
-    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000 # -v6
+    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
     image: husarion/rplidar:humble
+    <<: *network_mode
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   astra:
     image: husarion/astra:humble
+    <<: *network_mode
     devices:
       - /dev/bus/usb/
     volumes:
@@ -29,6 +35,7 @@ services:
 
   image_compressor:
     image: husarion/image-transport:humble-4.2.0-20230216
+    <<: *network_mode
     command: >
       ros2 run image_transport republish raw compressed
         --ros-args
@@ -37,16 +44,18 @@ services:
 
   rosbridge:
     image: husarion/rosbridge-server:humble-1.3.1-20230505-stable
+    <<: *network_mode
     ports:
       - 9090:9090
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove:
     image: husarion/foxglove:1.72.0
+    <<: *network_mode
     ports:
       - 8080:8080
     volumes:
-      - ./config/rosbot_sensors_foxglove.json:/foxglove/default-layout.json
+      - ./config/foxglove_layout.json:/foxglove/default-layout.json
     environment:
       - DS_TYPE=rosbridge-websocket
       - DS_PORT=9090

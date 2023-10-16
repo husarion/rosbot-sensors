@@ -16,13 +16,18 @@ git clone https://github.com/husarion/rosbot-sensors
 cd rosbot-sensors
 ```
 
+> **`yq` required**
+>
+> Make sure `yq` is installed, by executing the script:
+>
+> ```bash title="husarion@husarion:~$"
+> sudo ./install_yq.sh
+> ```
+
 **3. Flash firmware.**
 
 ```bash title="husarion@husarion:~$"
-docker stop rosbot microros || true && \
-docker run --rm -it --privileged \
-husarion/rosbot:humble-0.6.1-20230712 \
-/flash-firmware.py /root/firmware.bin
+./flash_rosbot_firmware.sh
 ```
 
 **4. Run Docker Compose.**
@@ -31,7 +36,13 @@ husarion/rosbot:humble-0.6.1-20230712 \
 docker compose up
 ```
 
-**5. Open Foxglove application in browser.**
+**5. Enable Servos.**
+
+```bash title="husarion@husarion:~/rosbot-xl-sensors$"
+./set_servo_params.sh
+```
+
+**6. Open Foxglove application in browser.**
 
 To access Foxglove, input the following in your browser's search bar:
 
