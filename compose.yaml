@@ -48,5 +48,6 @@ services:
     volumes:
       - ./config/rosbot_sensors_foxglove.json:/foxglove/default-layout.json
     environment:
-      - FOXGLOVE_PORT=8080
-      - ROSBRIDGE_PORT=9090
+      - DS_TYPE=rosbridge-websocket
+      - DS_PORT=9090
+      - UI_PORT=8080
