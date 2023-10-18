@@ -264,7 +264,7 @@
           "instanceId": "55aab804-1ed4-4630-bf53-85630f57c496",
           "layerId": "foxglove.Urdf",
           "sourceType": "url",
-          "url": "http://{{.Host}}:{{env "UI_PORT"}}/rosbot.urdf",
+          "url": "http://localhost:8080/rosbot.urdf",
           "filePath": "",
           "parameter": "",
           "topic": "",
@@ -357,7 +357,7 @@
     },
     "Teleop!yh7wcv": {
       "topic": "/cmd_vel",
-      "publishRate": 10,
+      "publishRate": 20,
       "upButton": {
         "field": "linear-x",
         "value": 0.19754204525471783
