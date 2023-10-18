@@ -50,7 +50,7 @@ services:
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove:
-    image: husarion/foxglove:1.72.0
+    image: husarion/foxglove:fix-cache-1.72.0
     <<: *network_mode
     ports:
       - 8080:8080
@@ -60,3 +60,5 @@ services:
       - DS_TYPE=rosbridge-websocket
       - DS_PORT=9090
       - UI_PORT=8080
+      - DISABLE_CACHE=true
+      - DISABLE_INTERACTION=false
