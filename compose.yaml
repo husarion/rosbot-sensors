@@ -1,64 +1,62 @@
 # by using this we force services to use the default docker0 interface
 # that is used by default with `docker run ... ` (used by set_servo_params.sh) script
-x-network_mode: &network_mode
+x-common-config: &common-config
   network_mode: bridge
+  restart: always
 
 services:
 
   rosbot:
-    image: husarion/rosbot:humble
-    <<: *network_mode
+    image: husarion/rosbot:humble-0.8.4-20230921-stable
+    <<: *common-config
     command: ros2 launch rosbot_bringup bringup.launch.py mecanum:=${MECANUM:-False}
 
   microros:
-    image: husarion/micro-ros-agent:humble
-    <<: *network_mode
+    image: husarion/micro-ros-agent:humble-3.1.3-20231013-stable
+    <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble
-    <<: *network_mode
+    image: husarion/rplidar:humble-1.0.1-20230629
+    <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   astra:
-    image: husarion/astra:humble
-    <<: *network_mode
+    image: husarion/astra:humble-1.0.2-20230811
+    <<: *common-config
     devices:
       - /dev/bus/usb/
     volumes:
       - ./config/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
     command: ros2 launch astra_camera astra_mini.launch.py
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
 
-  image_compressor:
-    image: husarion/image-transport:humble
-    <<: *network_mode
-    command: >
-      ros2 run image_transport republish raw compressed
-        --ros-args
-        --remap in:=/camera/color/image_raw
-        --remap out/compressed:=/camera/color/image_raw/compressed
-
-  rosbridge:
-    image: husarion/rosbridge-server:humble
-    <<: *network_mode
+  foxglove-datasource:
+    image: husarion/foxglove-bridge:humble-0.7.2-20231015
+    <<: *common-config
     ports:
-      - 9090:9090
-    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+      - 8765:8765
+    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
 
   foxglove:
     image: husarion/foxglove:fix-cache-1.72.0
-    <<: *network_mode
+    <<: *common-config
     ports:
       - 8080:8080
     volumes:
       - ./config/foxglove_layout.json:/foxglove/default-layout.json
     environment:
-      - DS_TYPE=rosbridge-websocket
-      - DS_PORT=9090
+      # - DS_TYPE=rosbridge-websocket
+      # - DS_PORT=9090
+      - DS_TYPE=foxglove-websocket
+      - DS_PORT=8765
       - UI_PORT=8080
       - DISABLE_CACHE=true
       - DISABLE_INTERACTION=false
