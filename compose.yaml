@@ -19,14 +19,14 @@ services:
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20230629
+    image: husarion/rplidar:humble-1.0.1-20230629-stable
     <<: *common-config
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-115200}
 
   astra:
-    image: husarion/astra:humble-1.0.2-20230811
+    image: husarion/astra:humble-1.0.2-20230811-stable
     <<: *common-config
     devices:
       - /dev/bus/usb/
@@ -46,7 +46,7 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-datasource:
-    image: husarion/foxglove-bridge:humble-0.7.2-20231015
+    image: husarion/foxglove-bridge:humble-0.7.2-20231015-stable
     <<: *common-config
     ports:
       - 8765:8765
